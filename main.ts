@@ -15,11 +15,8 @@ function haveOrder () {
     inSignDough.setFlag(SpriteFlag.Invisible, false)
 }
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (isPizzaDone) {
-        isPizzaDone = false
-        isOrderTaken = true
-        haveOrder()
-    }
+    isOrderTaken = true
+    haveOrder()
 })
 function clock (timeWaiting: number) {
     timer = sprites.create(img`
@@ -276,10 +273,6 @@ function placeFridge (zone: number) {
     inSignFridge.setFlag(SpriteFlag.Ghost, true)
     inSignFridge.setFlag(SpriteFlag.Invisible, true)
 }
-controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    isOrderTaken = true
-    haveOrder()
-})
 function ingredientsOut () {
     monkey.say("Need to go to the oven", 1000)
     inSignVeggies.setFlag(SpriteFlag.Ghost, true)
@@ -626,6 +619,7 @@ function kitchenReady () {
     inSignFridge.setFlag(SpriteFlag.Ghost, false)
     inSignFridge.setFlag(SpriteFlag.Invisible, false)
 }
+let isPizzaDone = false
 let areVeggiesReady = false
 let isIngredientOut = false
 let isKitchenReady = false
@@ -646,7 +640,6 @@ let inSignFridge: Sprite = null
 let inSignOven: Sprite = null
 let anim: animation.Animation = null
 let timer: Sprite = null
-let isPizzaDone = false
 let inSignDough: Sprite = null
 let Oven4_Zone = 0
 let Oven3_Zone = 0
