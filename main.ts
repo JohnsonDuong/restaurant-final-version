@@ -638,9 +638,6 @@ let Oven4_Timer = 0
 let Oven3_Timer = 0
 let Oven2_Timer = 0
 let Oven1_Timer = 0
-let Oven4_Zone = 0
-let Oven3_Zone = 0
-let Oven2_Zone = 0
 let freezeY = 0
 let freezeX = 0
 let inSignKitchen: Sprite = null
@@ -651,6 +648,9 @@ let anim: animation.Animation = null
 let timer: Sprite = null
 let isPizzaDone = false
 let inSignDough: Sprite = null
+let Oven4_Zone = 0
+let Oven3_Zone = 0
+let Oven2_Zone = 0
 let Oven1_Zone = 0
 let Veggies_Zone = 0
 let Fridge_Zone = 0
@@ -715,6 +715,9 @@ placeKitchen(Kitchen_Zone)
 placeFridge(Fridge_Zone)
 placeVeggies(Veggies_Zone)
 placeOven(Oven1_Zone)
+placeOven(Oven2_Zone)
+placeOven(Oven3_Zone)
+placeOven(Oven4_Zone)
 haveOrder()
 game.onUpdate(function () {
     monkey.setImage(img`
