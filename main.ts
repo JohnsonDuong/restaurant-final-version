@@ -202,10 +202,8 @@ function clock (timeWaiting: number) {
     false
     )
     console.logValue("time waiting", timeWaiting)
-    info.setScore(timeWaiting)
     for (let index = 0; index < timeWaiting / 100; index++) {
         pause(100)
-        info.changeScoreBy(-100)
     }
     timer.destroy()
 }
@@ -505,6 +503,10 @@ function background () {
         e e e e e e e e e e e e e e e e 
         `, false)
 }
+info.onCountdownEnd(function () {
+    controller.moveSprite(monkey, 100, 100)
+    scene.cameraFollowSprite(monkey)
+})
 function workAtOven (timeWorking: number) {
     clock(timeWorking)
 }
@@ -603,9 +605,7 @@ function workAtStation (timeWorking: number) {
         `, SpriteKind.Player)
     monkey.setVelocity(0, 0)
     monkey.setPosition(freezeX, freezeY)
-    clock(timeWorking)
-    controller.moveSprite(monkey, 100, 100)
-    scene.cameraFollowSprite(monkey)
+    info.startCountdown(timeWorking)
 }
 function doughDone () {
     monkey.say("Let's head over to the kitchen", 1000)
@@ -653,12 +653,12 @@ function ZonesAndTimers () {
     Dough_Zone = 8
     Oven1_Timer = 20000
     Oven2_Timer = 15000
-    Oven3_Timer = 1000
-    Oven4_Timer = 1000
-    Veggie_Timer = 1000
-    Fridge_Timer = 1000
-    Kitchen_Timer = 1000
-    Dough_Timer = 1000
+    Oven3_Timer = 1
+    Oven4_Timer = 1
+    Veggie_Timer = 1
+    Fridge_Timer = 1
+    Kitchen_Timer = 1
+    Dough_Timer = 1
 }
 function veggiesReady () {
     monkey.say("Lets add the veggies", 1000)
