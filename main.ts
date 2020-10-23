@@ -20,6 +20,7 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     haveOrder()
 })
 function clock (timeWaiting: number) {
+    isOven4Full = true
     timer = sprites.create(img`
         . . . . . . . . . . . . . . . . 
         . . . . . f f f f f f f . . . . 
@@ -206,6 +207,9 @@ function clock (timeWaiting: number) {
         pause(100)
     }
     timer.destroy()
+    isOven4Full = false
+    inSignOven.setFlag(SpriteFlag.Ghost, true)
+    inSignOven.setFlag(SpriteFlag.Invisible, true)
 }
 function placeOven (zone: number) {
     if (zone == 1) {
@@ -274,7 +278,7 @@ function placeOven (zone: number) {
         oven.zone3_oven()
         tiles.placeOnTile(inSignOven, tiles.getTileLocation(19, 2))
     }
-    if (zone == 4) {
+    if (zone == 4 && isOven4Full == false) {
         inSignOven = sprites.create(img`
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
@@ -699,6 +703,7 @@ let inSignFridge: Sprite = null
 let inSignOven: Sprite = null
 let anim: animation.Animation = null
 let timer: Sprite = null
+let isOven4Full = false
 let isOrderTaken = false
 let inSignDough: Sprite = null
 let Oven4_Zone = 0
