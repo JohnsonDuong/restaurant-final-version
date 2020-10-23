@@ -15,6 +15,14 @@ function haveOrder () {
     inSignDough.setFlag(SpriteFlag.Invisible, false)
     isOrderTaken = true
 }
+function inSignOven4Off () {
+    inSignOven4.setFlag(SpriteFlag.Ghost, true)
+    inSignOven4.setFlag(SpriteFlag.Invisible, true)
+}
+function inSignOven2Off () {
+    inSignOven2.setFlag(SpriteFlag.Ghost, true)
+    inSignOven2.setFlag(SpriteFlag.Invisible, true)
+}
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     isOrderTaken = true
     haveOrder()
@@ -209,7 +217,7 @@ function clock (timeWaiting: number) {
 }
 function placeOven (zone: number) {
     if (zone == 1) {
-        inSignOven = sprites.create(img`
+        inSignOven1 = sprites.create(img`
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
             . . . . . . . f . . . . . . . . 
@@ -227,11 +235,10 @@ function placeOven (zone: number) {
             . . . . . f f f f f . . . . . . 
             . . . . . . . . . . . . . . . . 
             `, SpriteKind.sign)
-        oven.zone1_oven()
-        tiles.placeOnTile(inSignOven, tiles.getTileLocation(13, 2))
     }
+    oven.zone1_oven()
     if (zone == 2) {
-        inSignOven = sprites.create(img`
+        inSignOven2 = sprites.create(img`
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
             . . . . . . . f . . . . . . . . 
@@ -250,10 +257,10 @@ function placeOven (zone: number) {
             . . . . . . . . . . . . . . . . 
             `, SpriteKind.sign)
         oven.zone2_oven()
-        tiles.placeOnTile(inSignOven, tiles.getTileLocation(16, 2))
+        tiles.placeOnTile(inSignOven2, tiles.getTileLocation(16, 2))
     }
     if (zone == 3) {
-        inSignOven = sprites.create(img`
+        inSignOven3 = sprites.create(img`
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
             . . . . . . . f . . . . . . . . 
@@ -272,10 +279,10 @@ function placeOven (zone: number) {
             . . . . . . . . . . . . . . . . 
             `, SpriteKind.sign)
         oven.zone3_oven()
-        tiles.placeOnTile(inSignOven, tiles.getTileLocation(19, 2))
+        tiles.placeOnTile(inSignOven3, tiles.getTileLocation(19, 2))
     }
     if (zone == 4) {
-        inSignOven = sprites.create(img`
+        inSignOven4 = sprites.create(img`
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
             . . . . . . . f . . . . . . . . 
@@ -293,11 +300,10 @@ function placeOven (zone: number) {
             . . . . . f f f f f . . . . . . 
             . . . . . . . . . . . . . . . . 
             `, SpriteKind.sign)
+        tiles.placeOnTile(inSignOven4, tiles.getTileLocation(22, 2))
         oven.zone4_oven()
-        tiles.placeOnTile(inSignOven, tiles.getTileLocation(22, 2))
     }
-    inSignOven.setFlag(SpriteFlag.Ghost, true)
-    inSignOven.setFlag(SpriteFlag.Invisible, true)
+    tiles.placeOnTile(inSignOven1, tiles.getTileLocation(13, 2))
 }
 function placeFridge (zone: number) {
     if (zone == 6) {
@@ -331,13 +337,19 @@ function ingredientsOut () {
     monkey.say("Need to go to the oven", 1000)
     inSignVeggies.setFlag(SpriteFlag.Ghost, true)
     inSignVeggies.setFlag(SpriteFlag.Invisible, true)
-    inSignOven.setFlag(SpriteFlag.Ghost, false)
-    inSignOven.setFlag(SpriteFlag.Invisible, false)
+    inSignOven1.setFlag(SpriteFlag.Ghost, false)
+    inSignOven1.setFlag(SpriteFlag.Invisible, false)
+    workAtOven(1)
+    if (Oven1_Timer > 0) {
+    	
+    }
 }
 function readyForCustomer () {
     monkey.say("Alright, let's deliver this pizza!", 1000)
-    inSignOven.setFlag(SpriteFlag.Ghost, true)
-    inSignOven.setFlag(SpriteFlag.Invisible, true)
+    inSignOven1.setFlag(SpriteFlag.Ghost, false)
+    inSignOven1.setFlag(SpriteFlag.Invisible, false)
+    inSignOven2.setFlag(SpriteFlag.Ghost, true)
+    inSignOven2.setFlag(SpriteFlag.Invisible, true)
 }
 function background () {
     scene.setTile(4, img`
@@ -508,7 +520,11 @@ info.onCountdownEnd(function () {
     scene.cameraFollowSprite(monkey)
 })
 function workAtOven (timeWorking: number) {
-    clock(timeWorking)
+    info.startCountdown(timeWorking)
+}
+function inSignOven3Off () {
+    inSignOven3.setFlag(SpriteFlag.Ghost, true)
+    inSignOven3.setFlag(SpriteFlag.Invisible, true)
 }
 function placeDough (zone: number) {
     if (zone == 8) {
@@ -651,14 +667,18 @@ function ZonesAndTimers () {
     Fridge_Zone = 6
     Kitchen_Zone = 7
     Dough_Zone = 8
-    Oven1_Timer = 20000
-    Oven2_Timer = 15000
+    Oven1_Timer = 20
+    Oven2_Timer = 15
     Oven3_Timer = 1
     Oven4_Timer = 1
     Veggie_Timer = 1
     Fridge_Timer = 1
     Kitchen_Timer = 1
     Dough_Timer = 1
+}
+function inSignOven1Off () {
+    inSignOven1.setFlag(SpriteFlag.Ghost, true)
+    inSignOven1.setFlag(SpriteFlag.Invisible, true)
 }
 function veggiesReady () {
     monkey.say("Lets add the veggies", 1000)
@@ -690,15 +710,18 @@ let Veggie_Timer = 0
 let Oven4_Timer = 0
 let Oven3_Timer = 0
 let Oven2_Timer = 0
-let Oven1_Timer = 0
 let freezeY = 0
 let freezeX = 0
 let inSignKitchen: Sprite = null
+let Oven1_Timer = 0
 let inSignVeggies: Sprite = null
 let inSignFridge: Sprite = null
-let inSignOven: Sprite = null
+let inSignOven3: Sprite = null
+let inSignOven1: Sprite = null
 let anim: animation.Animation = null
 let timer: Sprite = null
+let inSignOven2: Sprite = null
+let inSignOven4: Sprite = null
 let isOrderTaken = false
 let inSignDough: Sprite = null
 let Oven4_Zone = 0
@@ -770,6 +793,10 @@ placeOven(Oven2_Zone)
 placeOven(Oven3_Zone)
 placeOven(Oven4_Zone)
 haveOrder()
+inSignOven1Off()
+inSignOven2Off()
+inSignOven3Off()
+inSignOven4Off()
 game.onUpdate(function () {
     monkey.setImage(img`
         ................................
@@ -959,7 +986,43 @@ forever(function () {
         workAtStation(Veggie_Timer)
         ingredientsOut()
     }
-    if (monkey.overlapsWith(inSignOven) && isPizzaDone) {
+    if (monkey.overlapsWith(inSignOven1) && isPizzaDone) {
+        isPizzaDone = false
+        isIngredientOut = true
+        isOrderTaken = true
+        haveOrder()
+        workAtOven(Oven1_Timer)
+        workAtOven(Oven2_Timer)
+        workAtOven(Oven3_Timer)
+        workAtOven(Oven4_Timer)
+    }
+})
+forever(function () {
+    if (monkey.overlapsWith(inSignDough) && isOrderTaken) {
+        isOrderTaken = false
+        isDoughDone = true
+        workAtStation(Dough_Timer)
+        doughDone()
+    }
+    if (monkey.overlapsWith(inSignKitchen) && isDoughDone) {
+        isKitchenReady = false
+        isIngredientOut = true
+        workAtStation(Kitchen_Timer)
+        kitchenReady()
+    }
+    if (monkey.overlapsWith(inSignFridge) && isIngredientOut) {
+        isIngredientOut = false
+        areVeggiesReady = true
+        workAtStation(Fridge_Timer)
+        veggiesReady()
+    }
+    if (monkey.overlapsWith(inSignVeggies) && areVeggiesReady) {
+        areVeggiesReady = false
+        isPizzaDone = true
+        workAtStation(Veggie_Timer)
+        ingredientsOut()
+    }
+    if (monkey.overlapsWith(inSignOven1) && isPizzaDone) {
         isPizzaDone = false
         isIngredientOut = true
         isOrderTaken = true
@@ -992,40 +1055,7 @@ forever(function () {
         workAtStation(Veggie_Timer)
         ingredientsOut()
     }
-    if (monkey.overlapsWith(inSignOven) && isPizzaDone) {
-        isPizzaDone = false
-        isIngredientOut = true
-        isOrderTaken = true
-        haveOrder()
-        workAtOven(Oven2_Timer)
-    }
-})
-forever(function () {
-    if (monkey.overlapsWith(inSignDough) && isOrderTaken) {
-        isOrderTaken = false
-        isDoughDone = true
-        workAtStation(Dough_Timer)
-        doughDone()
-    }
-    if (monkey.overlapsWith(inSignKitchen) && isDoughDone) {
-        isKitchenReady = false
-        isIngredientOut = true
-        workAtStation(Kitchen_Timer)
-        kitchenReady()
-    }
-    if (monkey.overlapsWith(inSignFridge) && isIngredientOut) {
-        isIngredientOut = false
-        areVeggiesReady = true
-        workAtStation(Fridge_Timer)
-        veggiesReady()
-    }
-    if (monkey.overlapsWith(inSignVeggies) && areVeggiesReady) {
-        areVeggiesReady = false
-        isPizzaDone = true
-        workAtStation(Veggie_Timer)
-        ingredientsOut()
-    }
-    if (monkey.overlapsWith(inSignOven) && isPizzaDone) {
+    if (monkey.overlapsWith(inSignOven1) && isPizzaDone) {
         isPizzaDone = false
         isIngredientOut = true
         isOrderTaken = true
